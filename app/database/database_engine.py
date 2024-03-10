@@ -17,7 +17,7 @@ class DatabaseEngine:
         DB_HOST= os.getenv("MYSQL_HOST")
         DB_USER = os.getenv("MYSQL_USER")
         DB_PASSWORD = os.getenv("MYSQL_PASSWORD")
-        DB_NAME = 'flask'
+        DB_NAME = os.getenv("DB_NAME")
         
         cls.engine = create_engine(
             f"mysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
