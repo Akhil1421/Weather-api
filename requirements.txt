@@ -8,3 +8,4 @@ Werkzeug==3.0.1
 gunicorn==21.2.0
 requests==2.31.0
 mysqlclient==2.2.4
+mysql-connector-python==8.3.0
