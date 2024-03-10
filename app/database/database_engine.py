@@ -20,7 +20,7 @@ class DatabaseEngine:
         DB_NAME = os.getenv("DB_NAME")
         
         cls.engine = create_engine(
-            f"mysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+            f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
         )
 
         return cls.engine
