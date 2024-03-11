@@ -1,6 +1,7 @@
 import werkzeug
 from app.cache.cache import cron_job
 from flask import Flask, jsonify
+from flask_cors import CORS
 from flask_restx import Api
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.routes.auth_routes import auth_api_ns
@@ -8,7 +9,9 @@ from app.routes.weather_routes import weather_api_ns
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["PROPAGATE_EXCEPTIONS"] = True
+
 
 api = Api(app)
 api.add_namespace(auth_api_ns)
