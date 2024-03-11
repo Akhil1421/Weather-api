@@ -9,6 +9,7 @@ Use link below to view swagger ui documentation of the API.
 
 ### Prerequisities : 
 1. Python installed
+2. MYSQL installed and setup with a DB
 
 ### Setting Up Python Libraries
 - After you clone the project, just run
