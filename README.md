@@ -1,5 +1,10 @@
 <h1>Documentation for Weather API using Flask Restx</h1>
 
+### Deployment Link 
+Use link below to view swagger ui documentation of the API.
+```
+    https://weather-api-5xrq.onrender.com/
+```
 ## Setting Up Environment
 
 ### Prerequisities : 
