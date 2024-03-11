@@ -4,6 +4,8 @@ from sqlalchemy import delete, update
 
 from app.database.database_engine import DatabaseEngine
 from app.database.models.base import Base
+from app.database.models.user import User
+from app.database.models.city import CityAssociatedWithUser
 
 
 database_engine = DatabaseEngine.create_mysql_db_engine()
