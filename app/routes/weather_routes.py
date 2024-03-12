@@ -148,13 +148,24 @@ class CityApi(Resource):
                 "error": "INVALID_REQUEST",
                 "message": "4 cities are already associated with user"
             }, 400
-        
+        id_map = {
+            0: True,
+            1: True,
+            2: True,
+            3: True
+        }
         for city in cities_associated_with_user:
             if city.name == request_data['name']:
                 return {
                     "error" : "INVALID_REQUEST",
                     "message": "City with the same name already bounded to user."
                 }, 400
+            id_map[city.id] = False
+        missing_id = 0
+        for id in id_map:
+            if id_map[id] == True:
+                missing_id = id
+                break
 
         city_curr_data = {}
         try:
@@ -171,9 +182,8 @@ class CityApi(Resource):
 
         except requests.exceptions.ConnectionError :
             raise(Exception("Service unavailable"))
-
         new_city_added = CityAssociatedWithUser(
-            id = len(cities_associated_with_user),
+            id = missing_id,
             user_id = user.id,
             name = request_data['name'],
             country = city_curr_data['country'],
@@ -337,7 +347,7 @@ class WeatherApi(Resource):
                 "error" : "INVALID_ARGUEMENTS",
                 "message" : "City id provided is incorrect"
             }, 400
-        
+
         city_dict = query_manager.query_with_filter(
             model=CityAssociatedWithUser, filters=and_(
                 CityAssociatedWithUser.user_id==user.id, 
