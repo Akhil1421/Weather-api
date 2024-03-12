@@ -54,6 +54,7 @@ class AllCitiesWeatherDataApi(Resource):
                 if 'error' not in response_dict:
                     city_data = get_required_attributes(response_dict)
                     cache.add_or_update_city(city=city, city_data=city_data)
+                    city_data['id'] = city.id
                     cities_data.append(city_data)
                 else :
                     raise requests.exceptions.ConnectionError("Could not fetch data")
@@ -65,8 +66,9 @@ class AllCitiesWeatherDataApi(Resource):
                         "message": "Service unavailable",
                         "data": []
                     }, 503
-
-                cities_data.append(cache.query_city(city=city))
+                city_data = cache.query_city(city=city)
+                city_data['id'] = city.id
+                cities_data.append(city_data)
 
         return {
             "error": None,
@@ -345,6 +347,7 @@ class WeatherApi(Resource):
 
             if 'error' not in response_dict:
                 city_data = get_required_attributes(response_dict)
+                city_data['id'] = city_id
                 return {
                     "error": None,
                     "message": "Data fetched successfully",
@@ -357,8 +360,11 @@ class WeatherApi(Resource):
             }, 400
 
         except requests.exceptions.ConnectionError as error:
+            city_data = cache.query_city(city=city)
+            if city_data is not None:
+                city_data['id'] = city_id
             return {
                 "error" : "CONNECTION_ERROR",
                 "message" : "Connection error with weather api",
-                "data" : cache.query_city(city=city)
+                "data" : city_data
             },200

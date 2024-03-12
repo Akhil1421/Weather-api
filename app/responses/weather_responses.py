@@ -6,6 +6,7 @@ class WeatherApiResponses:
     def get_single_city_query_response_model(cls, namespace):
         city_model = namespace.model(
             "CityModel",{
+                "id": fields.String(),
                 "name": fields.String(),
                 "country": fields.String(),
                 "temperature": fields.Float(),
@@ -65,6 +66,7 @@ class WeatherApiResponses:
     def get_multi_city_query_response_model(cls, namespace):
         city_model = namespace.model(
             "CityModel",{
+                "id": fields.String(),
                 "name": fields.String(),
                 "country": fields.String(),
                 "temperature": fields.Float(),
