@@ -122,7 +122,7 @@ class CityApi(Resource):
         "CityApiRequest", WeatherApiRequests.add_city_request_model
     )
     
-    @weather_api_ns.expect(add_city_request)
+    @weather_api_ns.expect(add_city_request, validate=True)
     @weather_api_ns.marshal_with(
         WeatherApiResponses.get_add_new_city_model(namespace=weather_api_ns)
     )
@@ -150,10 +150,10 @@ class CityApi(Resource):
             }, 400
         
         for city in cities_associated_with_user:
-            if city.name == request_data['name'] and city.country == request_data['country']:
+            if city.name == request_data['name']:
                 return {
                     "error" : "INVALID_REQUEST",
-                    "message": "City with the same name and country already exists."
+                    "message": "City with the same name already bounded to user."
                 }, 400
 
         city_curr_data = {}
@@ -189,8 +189,8 @@ class CityApi(Resource):
     update_city_request = weather_api_ns.model(
         "CityApiUpdateRequest", WeatherApiRequests.update_city_request_model
     )
-    
-    @weather_api_ns.expect(update_city_request)
+
+    @weather_api_ns.expect(update_city_request, validate=True)
     @weather_api_ns.marshal_with(
         WeatherApiResponses.update_existing_city_model(namespace=weather_api_ns)
     )
@@ -220,6 +220,17 @@ class CityApi(Resource):
                 "error" : "INVALID_ARGUEMENTS",
                 "message" : "User not associated with provided city id"
             }, 400
+
+        cities_associated_with_user = query_manager.query_all_with_filter(
+            model=CityAssociatedWithUser, filters=and_(CityAssociatedWithUser.user_id==user.id)
+        )
+
+        for city in cities_associated_with_user:
+            if city.name == request_data['name']:
+                return {
+                    "error" : "INVALID_REQUEST",
+                    "message": "City with the same name already bounded to user."
+                }, 400
 
         city_curr_data = {}
         try:
@@ -263,7 +274,7 @@ class CityApi(Resource):
 
     parser = reqparse.RequestParser()
     parser.add_argument("id", help="Id of city to be deleted", required=True)
-    @weather_api_ns.expect(parser)
+    @weather_api_ns.expect(parser, validate=True)
     @authenticate_user
     def delete(self):
         args = self.parser.parse_args()
