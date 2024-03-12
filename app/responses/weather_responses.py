@@ -11,6 +11,7 @@ class WeatherApiResponses:
                 "country": fields.String(),
                 "temperature": fields.Float(),
                 "humidity": fields.Integer(),
+                "condition": fields.String(),
                 "icon": fields.String()
             }
         )
@@ -71,6 +72,7 @@ class WeatherApiResponses:
                 "country": fields.String(),
                 "temperature": fields.Float(),
                 "humidity": fields.Integer(),
+                "condition": fields.String(),
                 "icon": fields.String()
             }
         )
