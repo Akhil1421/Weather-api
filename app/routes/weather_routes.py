@@ -249,9 +249,9 @@ class CityApi(Resource):
             raise(Exception("Service unavailable"))
 
         updates = {
-            "name": request_data['name'],
+            "name": request_data['name']
         }
-        updates['country'] =  city_curr_data['country'],
+        updates['country'] =  city_curr_data['country']
 
         query_manager.update_objects(model=CityAssociatedWithUser, filters=and_(
             CityAssociatedWithUser.user_id==user.id, 
@@ -364,7 +364,7 @@ class WeatherApi(Resource):
                     "message": "Data fetched successfully",
                     "data": city_data
                 }, 200
-            
+
             return {
                 "error" : "INVALID_REQUEST",
                 "message" : response_dict['error']['message']
