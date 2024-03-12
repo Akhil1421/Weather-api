@@ -26,6 +26,7 @@ Use link below to view swagger ui documentation of the API.
 - This is the folder containing the entire application logic. This folder contains following :
     - cache folder :
         - This folder just contains cache.py where cache dictionary is defined along with cron job and queries to fill up, update or get data incase open weather api is down.
+        - Cron job will fill up fresh data for cities every 1 hour.
     - middleware folder :
         - This folder contains the middleware used for getting the JWT token for authentication from the request for private routes access.
     - requests folder :
@@ -52,6 +53,78 @@ Use link below to view swagger ui documentation of the API.
      - main.py :
          - This is where main flask application setup is done along with exception handling.
      
+## Create Session For User (POST)
+This route is for creating user session and getting a JWT for authentication.
+``` https://weather-api-5xrq.onrender.com/auth/jwt```
+
+Command:
+```
+curl --location 'https://weather-api-5xrq.onrender.com/auth/jwt' 
+--data '{
+    "username":"username_of_user_for_session",
+    "uuid":"Randomly generated UUID"
+}'
+```
+## Get Weather of cities associated with user (GET)
+```https://weather-api-5xrq.onrender.com/weather```
+
+Command:
+```
+curl --location 'https://weather-api-5xrq.onrender.com/weather'
+--header '{
+    "token" : "JWT_token_stored_in_local_storage_while_creating_session"
+}'
+```
+
+## Get Weather of particular city associated with user (GET)
+```https://weather-api-5xrq.onrender.com/weather/city/{city_id}```
+
+Command:
+```
+curl --location 'https://weather-api-5xrq.onrender.com/weather/city/:city_id'
+--header '{
+    "token" : "JWT_token_stored_in_local_storage_while_creating_session"
+}'
+```
+## Add a new city associated with user (POST)
+```https://weather-api-5xrq.onrender.com/weather/city```
+
+Command:
+```
+curl --location 'https://weather-api-5xrq.onrender.com/weather/city'
+--header '{
+    "token" : "JWT_token_stored_in_local_storage_while_creating_session"
+}'
+--data '{
+    "name":"City_name",
+    "country":"Country of City"
+}'
+```
+
+## Update an existing city associated with user (PUT)
+```https://weather-api-5xrq.onrender.com/weather/city```
+
+Command:
+```
+curl --location 'https://weather-api-5xrq.onrender.com/weather/city'
+--header '{
+    "token" : "JWT_token_stored_in_local_storage_while_creating_session"
+}'
+--data '{
+    "name":"New name for the city",
+    "id":"Id of the city to be updated"
+}'
+```
+## Delete an existing city associated with user (DELETE)
+```https://weather-api-5xrq.onrender.com/weather/city```
+
+Command:
+```
+curl --location 'https://weather-api-5xrq.onrender.com/weather/city?id=valid_city_id'
+--header '{
+    "token" : "JWT_token_stored_in_local_storage_while_creating_session"
+}'
+```
 
 ## Run Development Server
 Command:
