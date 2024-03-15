@@ -298,7 +298,7 @@ class CityApi(Resource):
                 "error" : "INVALID_USER",
                 "message" : "No user with given uuid in database"
             }, 403
-        
+
         city_dict = query_manager.query_with_filter(
             model=CityAssociatedWithUser, filters=and_(
                 CityAssociatedWithUser.user_id==user.id, 

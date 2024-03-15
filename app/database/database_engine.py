@@ -14,13 +14,10 @@ class DatabaseEngine:
 
         load_dotenv()
 
-        DB_HOST= os.getenv("MYSQL_HOST")
-        DB_USER = os.getenv("MYSQL_USER")
-        DB_PASSWORD = os.getenv("MYSQL_PASSWORD")
-        DB_NAME = os.getenv("DB_NAME")
-        
+        DB_URI= os.getenv("DB_URI")
+
         cls.engine = create_engine(
-            f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+            f"{DB_URI}"
         )
 
         return cls.engine
